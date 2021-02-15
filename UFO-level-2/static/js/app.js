@@ -31,21 +31,17 @@ function runEnter() {
   // Prevent the page from refreshing
   d3.event.preventDefault();
   
-  // Select the input element and get the raw HTML node
-  let input = d3.select("#datetime");
-  
-  // Get the value property of the input element
-  let inputValue = input.property("value");
-  
-  let filteredData = [];
-  
-  // Use the form input to filter for date
-  if (inputValue !== "") { 
-    filteredData = tableData.filter(dt => dt.datetime === inputValue);
+  // function selects the input element and gets the value
+  function inputValue (element) {
+    return d3.select(element).property("value");
   }
-  else {
-    filteredData = tableData;
-  }
+  
+  // filters the data based on inputValue function
+  let filteredData=tableData.filter(item => (item.datetime === inputValue("#datetime") || inputValue("#datetime") === "") 
+    && (item.city === inputValue("#City") || inputValue("#City") === "")
+    && (item.state === inputValue("#State") || inputValue("#State") === "")
+    && (item.country === inputValue("#Country") || inputValue("#Country") === "") 
+    && (item.shape === inputValue("#Shape") || inputValue("#Shape") === ""));
 
   // clear previous entries
   tableBody.html("");
